@@ -1,0 +1,207 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "DM Sans", "Elza", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Montserrat", "Arial Black", "Helvetica Neue", sans-serif;
+
+  --color-ink-950: #0b1f3a;
+  --color-ink-900: #0f2444;
+  --color-ink-800: #14213d;
+  --color-ink-700: #1e2f52;
+
+  /* Thème CLAIR — fond blanc / texte marine / accent ROUGE RE/MAX.
+     brand-100/200 = textes foncés lisibles sur blanc ;
+     brand-300 = rouge RE/MAX (micro-libellés, icônes, accents) ;
+     brand-400..900 = surfaces claires élevées (cartes, cercles, bordures). */
+  --color-brand-50: #ffffff;
+  --color-brand-100: #0b1f3a;
+  --color-brand-200: #33415c;
+  --color-brand-300: #dc1928;
+  --color-brand-400: #e2e8f0;
+  --color-brand-500: #eef2f7;
+  --color-brand-600: #f4f7fb;
+  --color-brand-700: #f8fafc;
+  --color-brand-800: #ffffff;
+  --color-brand-900: #ffffff;
+
+  /* Rouge RE/MAX — accent de marque (le rôle "accent", ancien doré) */
+  --color-gold: #dc1928;
+  --color-gold-soft: #ee2a3c;
+
+  /* Bleu marine RE/MAX — accent secondaire */
+  --color-remax-blue: #003da5;
+  --color-remax-navy: #0b1f3a;
+
+  --color-slate-accent: #dc1928;
+  --color-slate-soft: #003da5;
+
+  /* Textes secondaires — gris marine lisibles sur fond blanc
+     (échelle inversée : plus le nombre est haut, plus c'est estompé) */
+  --color-slate-300: #334155;
+  --color-slate-400: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-600: #94a3b8;
+}
+
+html, body {
+  background: radial-gradient(ellipse at 50% -8%, #eef3fb 0%, #f7f9fc 42%, #ffffff 100%);
+  color: #0b1f3a;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Surface claire givrée (thème blanc) — carte blanche, ombre douce */
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  border: 1px solid rgba(11, 31, 58, 0.09);
+  box-shadow:
+    0 20px 48px -28px rgba(11, 31, 58, 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+}
+
+@utility glass-card-light {
+  background: #ffffff;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(220, 25, 40, 0.16);
+  box-shadow:
+    0 34px 80px -34px rgba(11, 31, 58, 0.32),
+    0 0 0 1px rgba(11, 31, 58, 0.04) inset;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Titre d'affichage — gros bold majuscules large */
+@utility display-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.02;
+}
+
+/* AI shimmer — dégradé rouge/bleu RE/MAX lent, reste doux */
+@keyframes ai-shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.ai-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #dc1928 0%,
+    #ff5d6b 20%,
+    #003da5 44%,
+    #dc1928 62%,
+    #ff5d6b 82%,
+    #003da5 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: ai-shimmer 8s linear infinite;
+}
+.ai-shimmer-fast {
+  background-image: linear-gradient(
+    90deg,
+    #dc1928 0%,
+    #ff5d6b 20%,
+    #003da5 44%,
+    #dc1928 62%,
+    #ff5d6b 82%,
+    #003da5 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: ai-shimmer 2.5s linear infinite;
+}
+
+/* Pulse dot */
+@keyframes soft-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: soft-pulse 1.8s ease-in-out infinite;
+  opacity: 0.5;
+}
+
+/* Carte fond non-interactive — claire, rues à peine visibles sous le voile blanc */
+.map-mono {
+  filter: grayscale(0.25) contrast(0.95) brightness(1.05) opacity(0.55);
+}
+
+.map-no-interaction {
+  pointer-events: none !important;
+}
+
+/* Leaflet attribution discrète (sur fond clair) */
+.leaflet-container {
+  background: transparent !important;
+  font-family: var(--font-sans);
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(11, 31, 58, 0.5) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px;
+}
+.leaflet-control-attribution a {
+  color: rgba(11, 31, 58, 0.7) !important;
+}
+
+/* Étiquettes (tooltips) Leaflet sur la carte régions */
+.region-label {
+  background: rgba(255, 255, 255, 0.97) !important;
+  border: 1px solid rgba(220, 25, 40, 0.35) !important;
+  color: #0b1f3a !important;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 6px 20px -6px rgba(11, 31, 58, 0.25) !important;
+}
+.region-label::before {
+  display: none !important;
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(11, 31, 58, 0.18);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(11, 31, 58, 0.3); }
+
+/* Inputs sans bordures par défaut */
+input, textarea, select {
+  background: transparent;
+  outline: none;
+  border: none;
+}
+input:focus, textarea:focus, select:focus { outline: none; }
