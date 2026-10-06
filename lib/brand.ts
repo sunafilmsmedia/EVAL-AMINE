@@ -67,7 +67,7 @@ export interface BrandConfig {
 export const BRAND: BrandConfig = {
   slug: "eval-amine",
 
-  teamName: "El-Amine Ghalem",
+  teamName: "El Amine Ghalem",
 
   region: "le Grand Montréal",
   city: "Montréal",
@@ -93,9 +93,9 @@ export const BRAND: BrandConfig = {
 
   logos: {
     team: {
-      // Signature / wordmark d'El-Amine Ghalem (placeholder à remplacer par le vrai fichier).
+      // Signature / wordmark d'El Amine Ghalem (placeholder à remplacer par le vrai fichier).
       src: "/amine-ghalem.svg",
-      alt: "El-Amine Ghalem — Courtier immobilier",
+      alt: "El Amine Ghalem, courtier immobilier",
       width: 800,
       height: 228,
     },
@@ -112,7 +112,7 @@ export const BRAND: BrandConfig = {
   // par défaut) — on garde ses coordonnées ici au cas où on le réactive.
   brokers: [
     {
-      name: "El-Amine Ghalem",
+      name: "El Amine Ghalem",
       title: "Courtier immobilier · RE/MAX Alliance",
       photo: "/broker-1.svg",
       objectPosition: "50% 30%",

@@ -1,7 +1,7 @@
 import type { Region } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────
-//  SECTEURS COUVERTS — Grand Montréal (El-Amine Ghalem, RE/MAX Alliance).
+//  SECTEURS COUVERTS — Grand Montréal (El Amine Ghalem, RE/MAX Alliance).
 //
 //  Utilisé par le champ de recherche de secteur (dernière question) :
 //  - recherche insensible aux accents et à la casse
