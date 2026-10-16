@@ -30,7 +30,7 @@ export default function BooleanQuestion({ value, onChange }: Props) {
               transition-all duration-200
               ${
                 selected
-                  ? "bg-gradient-to-br from-[var(--color-gold-soft)] to-[var(--color-gold)] border border-[var(--color-gold-soft)] text-white shadow-[0_12px_30px_-10px_rgba(220,25,40,0.5)]"
+                  ? "bg-gradient-to-br from-[var(--color-gold-soft)] to-[var(--color-gold)] border border-[var(--color-gold-soft)] text-white shadow-[0_12px_30px_-10px_rgba(102,0,0,0.5)]"
                   : "glass-card text-[var(--color-brand-100)] hover:border-[var(--color-slate-accent)]/30 hover:bg-[var(--color-brand-100)]/[0.05]"
               }
             `}

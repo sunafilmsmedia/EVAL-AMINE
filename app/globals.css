@@ -6,36 +6,36 @@
   --font-sans: "DM Sans", "Elza", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Montserrat", "Arial Black", "Helvetica Neue", sans-serif;
 
-  --color-ink-950: #0b1f3a;
-  --color-ink-900: #0f2444;
-  --color-ink-800: #14213d;
-  --color-ink-700: #1e2f52;
+  --color-ink-950: #000e35;
+  --color-ink-900: #0a1b42;
+  --color-ink-800: #16284e;
+  --color-ink-700: #243760;
 
-  /* Thème CLAIR — fond blanc / texte marine / accent ROUGE RE/MAX.
-     brand-100/200 = textes foncés lisibles sur blanc ;
-     brand-300 = rouge RE/MAX (micro-libellés, icônes, accents) ;
-     brand-400..900 = surfaces claires élevées (cartes, cercles, bordures). */
-  --color-brand-50: #ffffff;
-  --color-brand-100: #0b1f3a;
-  --color-brand-200: #33415c;
-  --color-brand-300: #dc1928;
-  --color-brand-400: #e2e8f0;
-  --color-brand-500: #eef2f7;
-  --color-brand-600: #f4f7fb;
-  --color-brand-700: #f8fafc;
+  /* Thème CLAIR — palette officielle RE/MAX Québec (bleu foncé / rouge foncé / crème).
+     brand-100/200 = textes foncés lisibles sur blanc (bleu foncé) ;
+     brand-300 = rouge foncé RE/MAX (micro-libellés, icônes, accents) ;
+     brand-400..900 = surfaces claires élevées, teintées crème (cartes, cercles, bordures). */
+  --color-brand-50: #f7f5ee;
+  --color-brand-100: #000e35;
+  --color-brand-200: #283057;
+  --color-brand-300: #660000;
+  --color-brand-400: #ded7c8;
+  --color-brand-500: #efe9dc;
+  --color-brand-600: #f4f1e8;
+  --color-brand-700: #f7f5ee;
   --color-brand-800: #ffffff;
   --color-brand-900: #ffffff;
 
-  /* Rouge RE/MAX — accent de marque (le rôle "accent", ancien doré) */
-  --color-gold: #dc1928;
-  --color-gold-soft: #ee2a3c;
+  /* Rouge foncé RE/MAX — accent de marque (le rôle "accent", ancien doré) */
+  --color-gold: #660000;
+  --color-gold-soft: #aa1120;
 
-  /* Bleu marine RE/MAX — accent secondaire */
-  --color-remax-blue: #003da5;
-  --color-remax-navy: #0b1f3a;
+  /* Bleu foncé RE/MAX — accent secondaire */
+  --color-remax-blue: #000e35;
+  --color-remax-navy: #000e35;
 
-  --color-slate-accent: #dc1928;
-  --color-slate-soft: #003da5;
+  --color-slate-accent: #660000;
+  --color-slate-soft: #000e35;
 
   /* Textes secondaires — gris marine lisibles sur fond blanc
      (échelle inversée : plus le nombre est haut, plus c'est estompé) */
@@ -46,8 +46,8 @@
 }
 
 html, body {
-  background: radial-gradient(ellipse at 50% -8%, #eef3fb 0%, #f7f9fc 42%, #ffffff 100%);
-  color: #0b1f3a;
+  background: radial-gradient(ellipse at 50% -8%, #f7f5ee 0%, #faf8f2 42%, #ffffff 100%);
+  color: #000e35;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -63,9 +63,9 @@ body {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
-  border: 1px solid rgba(11, 31, 58, 0.09);
+  border: 1px solid rgba(0, 14, 53, 0.09);
   box-shadow:
-    0 20px 48px -28px rgba(11, 31, 58, 0.28),
+    0 20px 48px -28px rgba(0, 14, 53, 0.28),
     0 1px 0 rgba(255, 255, 255, 0.6) inset;
 }
 
@@ -73,10 +73,10 @@ body {
   background: #ffffff;
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(220, 25, 40, 0.16);
+  border: 1px solid rgba(102, 0, 0, 0.16);
   box-shadow:
-    0 34px 80px -34px rgba(11, 31, 58, 0.32),
-    0 0 0 1px rgba(11, 31, 58, 0.04) inset;
+    0 34px 80px -34px rgba(0, 14, 53, 0.32),
+    0 0 0 1px rgba(0, 14, 53, 0.04) inset;
 }
 
 @utility text-balance {
@@ -164,26 +164,26 @@ body {
 }
 .leaflet-control-attribution {
   background: rgba(255, 255, 255, 0.7) !important;
-  color: rgba(11, 31, 58, 0.5) !important;
+  color: rgba(0, 14, 53, 0.5) !important;
   font-size: 10px !important;
   padding: 2px 6px !important;
   border-radius: 4px;
 }
 .leaflet-control-attribution a {
-  color: rgba(11, 31, 58, 0.7) !important;
+  color: rgba(0, 14, 53, 0.7) !important;
 }
 
 /* Étiquettes (tooltips) Leaflet sur la carte régions */
 .region-label {
-  background: rgba(255, 255, 255, 0.97) !important;
-  border: 1px solid rgba(220, 25, 40, 0.35) !important;
-  color: #0b1f3a !important;
+  background: rgba(247, 245, 238, 0.97) !important;
+  border: 1px solid rgba(102, 0, 0, 0.35) !important;
+  color: #000e35 !important;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 12px;
   padding: 4px 10px !important;
   border-radius: 9999px !important;
-  box-shadow: 0 6px 20px -6px rgba(11, 31, 58, 0.25) !important;
+  box-shadow: 0 6px 20px -6px rgba(0, 14, 53, 0.25) !important;
 }
 .region-label::before {
   display: none !important;
@@ -193,10 +193,10 @@ body {
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(11, 31, 58, 0.18);
+  background: rgba(0, 14, 53, 0.18);
   border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(11, 31, 58, 0.3); }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 14, 53, 0.3); }
 
 /* Inputs sans bordures par défaut */
 input, textarea, select {

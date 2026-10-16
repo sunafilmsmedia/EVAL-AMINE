@@ -48,19 +48,19 @@ export default function HeroBackground() {
         </MapContainer>
       </div>
 
-      {/* Voile blanc : la carte reste perceptible, le titre parfaitement lisible */}
+      {/* Voile crème : la carte reste perceptible, le titre parfaitement lisible */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 32%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.62) 40%, rgba(255,255,255,0.9) 100%)",
+            "radial-gradient(ellipse at 50% 32%, rgba(247,245,238,0.35) 0%, rgba(247,245,238,0.62) 40%, rgba(247,245,238,0.9) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.3) 22%, rgba(255,255,255,0.48) 70%, rgba(255,255,255,0.98) 100%)",
+            "linear-gradient(180deg, rgba(247,245,238,0.72) 0%, rgba(247,245,238,0.3) 22%, rgba(247,245,238,0.48) 70%, rgba(247,245,238,0.98) 100%)",
         }}
       />
     </div>

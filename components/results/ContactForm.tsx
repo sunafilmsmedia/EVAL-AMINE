@@ -230,8 +230,8 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           px-6 py-4 rounded-full text-base font-semibold
           bg-gradient-to-b from-[var(--color-gold-soft)] to-[var(--color-gold)]
           text-white
-          shadow-[0_15px_40px_-10px_rgba(220,25,40,0.5)]
-          hover:shadow-[0_20px_50px_-10px_rgba(220,25,40,0.65)]
+          shadow-[0_15px_40px_-10px_rgba(102,0,0,0.5)]
+          hover:shadow-[0_20px_50px_-10px_rgba(102,0,0,0.65)]
           disabled:opacity-60 disabled:cursor-not-allowed
           transition-all
         "

@@ -70,7 +70,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
           {/* Icône cadenas avec halo */}
           <div className="relative mx-auto mb-7 w-16 h-16">
             <div className="absolute inset-0 rounded-full bg-[var(--color-remax-navy)]/15 blur-xl" />
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-remax-navy)] to-[#061225] border border-white/15 flex items-center justify-center shadow-[0_10px_40px_-10px_rgba(11,31,58,0.5)]">
+            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-remax-navy)] to-[#000822] border border-white/15 flex items-center justify-center shadow-[0_10px_40px_-10px_rgba(0,14,53,0.5)]">
               <svg className="w-7 h-7 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <rect x="4" y="9" width="12" height="9" rx="2" />
                 <path d="M7 9V6.5C7 4.8 8.3 3.5 10 3.5C11.7 3.5 13 4.8 13 6.5V9" />
@@ -263,7 +263,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
                 bg-gradient-to-br from-[var(--color-gold-soft)] to-[var(--color-gold)]
                 flex items-center justify-center
                 font-serif text-white text-sm font-semibold
-                shadow-[0_6px_18px_-4px_rgba(220,25,40,0.45)]
+                shadow-[0_6px_18px_-4px_rgba(102,0,0,0.45)]
               ">
                 {i + 1}
               </span>
@@ -370,9 +370,9 @@ function ScoreCard({ score, verdict }: { score: number; verdict: Verdict }) {
       className="
         relative overflow-hidden
         rounded-3xl p-7 sm:p-9
-        bg-gradient-to-br from-[#0b1f3a] via-[#0a1a30] to-[#061225]
+        bg-gradient-to-br from-[#000e35] via-[#000c2c] to-[#000822]
         border border-[var(--color-gold)]/25
-        shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(220,25,40,0.12)_inset]
+        shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(102,0,0,0.12)_inset]
       "
     >
       <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[var(--color-gold)]/15 blur-3xl" />
