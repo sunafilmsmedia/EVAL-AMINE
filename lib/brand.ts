@@ -100,11 +100,11 @@ export const BRAND: BrandConfig = {
       height: 228,
     },
     banner: {
-      // Logo de son agence : RE/MAX Alliance (haut à droite).
-      src: "/remax-alliance.svg",
-      alt: "RE/MAX Alliance — Agence immobilière",
-      width: 800,
-      height: 300,
+      // Logotype officiel RE/MAX (ballon + mot-symbole), haut à droite.
+      src: "/remax-logo.jpg",
+      alt: "RE/MAX",
+      width: 288,
+      height: 78,
     },
   },
 
