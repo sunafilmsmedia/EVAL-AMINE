@@ -85,7 +85,8 @@ export interface AnalyzeResponse {
 export type LeadType = "evaluation" | "market_info";
 
 export interface LeadPayload {
-  name: string;
+  firstName: string;
+  lastName: string;
   phone?: string;
   email: string;
   consent: boolean;

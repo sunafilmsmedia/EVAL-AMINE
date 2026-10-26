@@ -35,7 +35,8 @@ function getFbData(): { fbclid?: string; fbc?: string; fbp?: string } {
 }
 
 export default function ContactForm({ answers, verdict, onSubmitted, gated }: Props) {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
@@ -49,7 +50,8 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
 
   const handleSubmit = async () => {
     setError(null);
-    if (!name.trim()) return setError("Votre nom est requis.");
+    if (!firstName.trim()) return setError("Votre prénom est requis.");
+    if (!lastName.trim()) return setError("Votre nom est requis.");
     if (!email.trim()) return setError("Votre courriel est requis.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       return setError("Format de courriel invalide.");
@@ -75,7 +77,8 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name.trim(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
           email: email.trim(),
           phone: phone.trim() || undefined,
           consent,
@@ -87,13 +90,12 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
       const data = await res.json();
 
       // Meta Pixel — Lead standard avec Advanced Matching
-      const [firstNameRaw, ...lastParts] = name.trim().split(/\s+/);
       trackLeadWithMatching(
         {
           email: email.trim(),
           phone: phone.trim() || undefined,
-          firstName: firstNameRaw,
-          lastName: lastParts.join(" ") || undefined,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
         },
         {
           content_category: "real_estate_evaluation",
@@ -106,7 +108,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
 
       onSubmitted({
         stored: !!data.stored,
-        firstName: firstNameRaw,
+        firstName: firstName.trim(),
       });
     } catch {
       setError("Une erreur est survenue. Réessaie dans quelques secondes.");
@@ -167,9 +169,17 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           label="Votre prénom"
           required
           autoComplete="given-name"
-          value={name}
-          onChange={setName}
+          value={firstName}
+          onChange={setFirstName}
           placeholder="Marie"
+        />
+        <Field
+          label="Votre nom"
+          required
+          autoComplete="family-name"
+          value={lastName}
+          onChange={setLastName}
+          placeholder="Tremblay"
         />
         <Field
           label="Téléphone"

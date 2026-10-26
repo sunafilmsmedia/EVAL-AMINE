@@ -15,12 +15,6 @@ interface IncomingBody extends Partial<LeadPayload> {
   fbp?: string;
 }
 
-function splitName(full: string): { firstName: string; lastName: string } {
-  const parts = full.trim().split(/\s+/);
-  if (parts.length === 1) return { firstName: parts[0], lastName: "" };
-  return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
-}
-
 export async function POST(req: Request) {
   let body: IncomingBody;
   try {
@@ -29,10 +23,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { name, phone, email, consent, answers } = body;
+  const { firstName, lastName, phone, email, consent, answers } = body;
   const leadType: LeadType = body.leadType ?? "evaluation";
 
-  if (!name || !email || !consent || !answers) {
+  if (!firstName || !lastName || !email || !consent || !answers) {
     return NextResponse.json(
       { stored: false, error: "Missing required fields" },
       { status: 400 }
@@ -53,7 +47,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const { firstName, lastName } = splitName(name);
+  const fullName = `${firstName} ${lastName}`.trim();
   // Secteur de la liste → son nom ; sinon on garde le texte libre saisi.
   const regionName = REGIONS.find((r) => r.id === answers.region)?.name ?? answers.region ?? "";
 
@@ -81,7 +75,7 @@ export async function POST(req: Request) {
     // Contact
     firstName,
     lastName,
-    fullName: name,
+    fullName,
     phone: phone ?? "",
     email,
 
@@ -116,7 +110,7 @@ export async function POST(req: Request) {
     wantsToSwitch: answers.wantsToSwitch ?? false,
 
     // Données brutes
-    lead: { name, phone, email },
+    lead: { firstName, lastName, phone, email },
     scoring: scoring
       ? { score: scoring.score, verdict: scoring.verdict }
       : null,
