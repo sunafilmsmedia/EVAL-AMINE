@@ -9,10 +9,11 @@ import { BRAND, brokersInlineNames } from "@/lib/brand";
 interface Props {
   analyze: AnalyzeResponse;
   answers: Answers;
-  // "yes" → la personne s'est engagée à recevoir l'analyse :
+  // "yes" → la personne s'est engagée à recevoir l'analyse complète :
   //   on bloque le contenu derrière le ContactForm
-  // "no" → on montre les résultats directement
-  revealChoice: "yes" | "no";
+  // "scoreOnly" → la personne veut juste son score : aucune coordonnée
+  //   n'est demandée, on affiche seulement le score
+  revealChoice: "yes" | "scoreOnly";
   onRestart: () => void;
 }
 
@@ -57,6 +58,53 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
   // encore soumis ses coordonnées, on bloque tout le contenu derrière le
   // ContactForm. Le verdict n'est pas visible (pas d'indices).
   const isGated = revealChoice === "yes" && submission.kind === "pending";
+
+  if (revealChoice === "scoreOnly") {
+    return (
+      <div className="min-h-screen px-5 sm:px-8 py-10 sm:py-14 max-w-xl mx-auto w-full flex flex-col justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center mb-8"
+        >
+          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${badge.bg} ring-1 ${badge.ring}`}>
+            <span className={`w-2 h-2 rounded-full ${badge.color.replace("text-", "bg-")}`} />
+            <span className={`text-xs font-medium tracking-wide ${badge.color}`}>{badge.label}</span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-10"
+        >
+          <h1 className="display-title text-[2rem] sm:text-5xl text-[var(--color-brand-100)] text-balance">
+            {verdictHeadline}
+          </h1>
+        </motion.div>
+
+        <ScoreCard score={scoring.score} verdict={scoring.verdict} />
+
+        <p className="text-center text-[11px] sm:text-xs text-slate-500 mt-4">
+          Aucune coordonnée n&apos;a été demandée.
+        </p>
+
+        <div className="mt-12 mb-24 sm:mb-12 text-center">
+          <button
+            onClick={onRestart}
+            className="text-sm text-slate-400 hover:text-[var(--color-brand-200)] transition-colors underline underline-offset-4 decoration-[var(--color-brand-400)] hover:decoration-[var(--color-gold)]"
+          >
+            Refaire une évaluation
+          </button>
+          <p className="mt-6 text-[10px] text-slate-600 uppercase tracking-[0.2em]">
+            Analyse {analyze.generatedBy === "claude" ? "IA" : "déterministe"} · {BRAND.teamName} · {BRAND.region}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (isGated) {
     return (

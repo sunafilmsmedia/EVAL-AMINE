@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export type RevealChoice = "yes" | "no";
+export type RevealChoice = "yes" | "scoreOnly";
 
 interface Props {
   onContinue: (choice: RevealChoice) => void;
@@ -47,14 +47,13 @@ export default function PreRevealScreen({ onContinue }: Props) {
         </motion.div>
 
         <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--color-brand-300)] mb-3">
-          Analyse complète
+          Votre réponse est prête
         </p>
         <h1 className="display-title text-[2rem] sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] text-balance">
-          Votre réponse est prête.
+          Comment voulez-vous la recevoir ?
         </h1>
         <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-          Entrez vos informations pour débloquer votre réponse et recevoir votre analyse
-          complète, entièrement gratuite.
+          Choisissez l&apos;analyse complète et gratuite, ou simplement votre score.
         </p>
 
         {/* Bouton primaire — option recommandée */}
@@ -79,10 +78,10 @@ export default function PreRevealScreen({ onContinue }: Props) {
           "
         >
           <span className="block font-medium text-base sm:text-lg">
-            Voir ma réponse
+            Je veux une analyse complète
           </span>
           <span className="block text-xs sm:text-sm text-white/65 mt-1">
-            Analyse complète et gratuite
+            Gratuite — envoyée par courriel
           </span>
           <span className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
             {ready ? (
@@ -96,6 +95,31 @@ export default function PreRevealScreen({ onContinue }: Props) {
                 <span className="w-1 h-1 rounded-full bg-white/70 animate-pulse" style={{ animationDelay: "0.3s" }} />
               </span>
             )}
+          </span>
+        </motion.button>
+
+        {/* Bouton secondaire — score seulement, aucune coordonnée demandée */}
+        <motion.button
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          onClick={() => handleClick("scoreOnly")}
+          disabled={!ready}
+          className="
+            mt-3 w-full
+            rounded-2xl
+            bg-[var(--color-brand-100)]/[0.04] border border-[var(--color-slate-accent)]/25
+            px-6 py-4
+            hover:bg-[var(--color-brand-100)]/[0.08] hover:border-[var(--color-slate-accent)]/45
+            transition-all duration-300
+            disabled:opacity-60 disabled:cursor-wait
+          "
+        >
+          <span className="block font-medium text-sm sm:text-base text-[var(--color-brand-100)]">
+            Je veux juste mon score
+          </span>
+          <span className="block text-xs text-slate-500 mt-1">
+            Aucune coordonnée demandée
           </span>
         </motion.button>
       </motion.div>

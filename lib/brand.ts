@@ -100,11 +100,11 @@ export const BRAND: BrandConfig = {
       height: 228,
     },
     banner: {
-      // Logotype officiel RE/MAX (ballon + mot-symbole), haut à droite.
-      src: "/remax-logo.jpg",
-      alt: "RE/MAX",
-      width: 288,
-      height: 78,
+      // Logotype officiel RE/MAX Alliance (ballon + mot-symbole crème, fond transparent), haut à droite.
+      src: "/remax-alliance.png",
+      alt: "RE/MAX Alliance",
+      width: 1280,
+      height: 431,
     },
   },
 

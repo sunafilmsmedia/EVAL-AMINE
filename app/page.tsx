@@ -23,7 +23,7 @@ export default function Home() {
   const [stage, setStage] = useState<Stage>("hero");
   const [answers, setAnswers] = useState<Answers | null>(null);
   const [analyze, setAnalyze] = useState<AnalyzeResponse | null>(null);
-  const [revealChoice, setRevealChoice] = useState<"yes" | "no">("no");
+  const [revealChoice, setRevealChoice] = useState<"yes" | "scoreOnly">("scoreOnly");
 
   const handleFormComplete = async (finalAnswers: Answers) => {
     trackStep("analyse");
@@ -61,7 +61,7 @@ export default function Home() {
     }, remaining);
   };
 
-  const revealResults = (choice: "yes" | "no") => {
+  const revealResults = (choice: "yes" | "scoreOnly") => {
     trackStep("resultats", choice === "yes" ? "avec_contact" : "sans_contact");
     setRevealChoice(choice);
     setStage("results");
@@ -78,7 +78,7 @@ export default function Home() {
   const restart = () => {
     setAnswers(null);
     setAnalyze(null);
-    setRevealChoice("no");
+    setRevealChoice("scoreOnly");
     setStage("hero");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
