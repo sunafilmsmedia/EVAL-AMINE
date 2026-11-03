@@ -68,6 +68,12 @@ export default function Home() {
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
+  const requestFullAnalysis = () => {
+    trackStep("resultats", "avec_contact");
+    setRevealChoice("yes");
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
   const handleNoSell = (partialAnswers: Answers) => {
     trackStep("pas_vendre");
     setAnswers(partialAnswers);
@@ -135,6 +141,7 @@ export default function Home() {
               answers={answers}
               revealChoice={revealChoice}
               onRestart={restart}
+              onRequestFull={requestFullAnalysis}
             />
           </motion.div>
         )}

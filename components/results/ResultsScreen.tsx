@@ -15,6 +15,9 @@ interface Props {
   //   n'est demandée, on affiche seulement le score
   revealChoice: "yes" | "scoreOnly";
   onRestart: () => void;
+  // Depuis l'écran "score seulement" : bascule vers l'analyse complète
+  // (gated par le ContactForm), sans refaire le questionnaire.
+  onRequestFull: () => void;
 }
 
 const VERDICT_BADGE: Record<Verdict, { label: string; color: string; bg: string; ring: string }> = {
@@ -48,7 +51,7 @@ type SubmissionState =
   | { kind: "pending" }
   | { kind: "done"; stored: boolean; firstName: string };
 
-export default function ResultsScreen({ analyze, answers, revealChoice, onRestart }: Props) {
+export default function ResultsScreen({ analyze, answers, revealChoice, onRestart, onRequestFull }: Props) {
   const { scoring, report } = analyze;
   const badge = VERDICT_BADGE[scoring.verdict];
   const verdictHeadline = VERDICT_HEADLINE[scoring.verdict];
@@ -91,7 +94,38 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
           Aucune coordonnée n&apos;a été demandée.
         </p>
 
-        <div className="mt-12 mb-24 sm:mb-12 text-center">
+        <motion.button
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          onClick={onRequestFull}
+          className="
+            group mt-8 w-full
+            relative overflow-hidden
+            rounded-2xl
+            bg-gradient-to-b from-[var(--color-gold-soft)] to-[var(--color-gold)]
+            text-white
+            px-6 py-5
+            shadow-[0_20px_50px_-15px_rgba(102,0,0,0.55)]
+            hover:shadow-[0_25px_60px_-10px_rgba(102,0,0,0.7)]
+            hover:-translate-y-0.5
+            transition-all duration-300
+          "
+        >
+          <span className="block font-medium text-base sm:text-lg">
+            Voir l&apos;analyse complète
+          </span>
+          <span className="block text-xs sm:text-sm text-white/65 mt-1">
+            Gratuite — envoyée par courriel
+          </span>
+          <span className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
+            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 10h10M11 6l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </motion.button>
+
+        <div className="mt-8 mb-24 sm:mb-12 text-center">
           <button
             onClick={onRestart}
             className="text-sm text-slate-400 hover:text-[var(--color-brand-200)] transition-colors underline underline-offset-4 decoration-[var(--color-brand-400)] hover:decoration-[var(--color-gold)]"
