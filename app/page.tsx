@@ -23,7 +23,7 @@ export default function Home() {
   const [stage, setStage] = useState<Stage>("hero");
   const [answers, setAnswers] = useState<Answers | null>(null);
   const [analyze, setAnalyze] = useState<AnalyzeResponse | null>(null);
-  const [revealChoice, setRevealChoice] = useState<"yes" | "scoreOnly">("scoreOnly");
+  const [revealChoice, setRevealChoice] = useState<"yes" | "no">("no");
 
   const handleFormComplete = async (finalAnswers: Answers) => {
     trackStep("analyse");
@@ -61,16 +61,10 @@ export default function Home() {
     }, remaining);
   };
 
-  const revealResults = (choice: "yes" | "scoreOnly") => {
+  const revealResults = (choice: "yes" | "no") => {
     trackStep("resultats", choice === "yes" ? "avec_contact" : "sans_contact");
     setRevealChoice(choice);
     setStage("results");
-    if (typeof window !== "undefined") window.scrollTo(0, 0);
-  };
-
-  const requestFullAnalysis = () => {
-    trackStep("resultats", "avec_contact");
-    setRevealChoice("yes");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
@@ -84,7 +78,7 @@ export default function Home() {
   const restart = () => {
     setAnswers(null);
     setAnalyze(null);
-    setRevealChoice("scoreOnly");
+    setRevealChoice("no");
     setStage("hero");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
@@ -141,7 +135,6 @@ export default function Home() {
               answers={answers}
               revealChoice={revealChoice}
               onRestart={restart}
-              onRequestFull={requestFullAnalysis}
             />
           </motion.div>
         )}

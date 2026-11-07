@@ -9,15 +9,11 @@ import { BRAND, brokersInlineNames } from "@/lib/brand";
 interface Props {
   analyze: AnalyzeResponse;
   answers: Answers;
-  // "yes" → la personne s'est engagée à recevoir l'analyse complète :
+  // "yes" → la personne s'est engagée à recevoir l'analyse :
   //   on bloque le contenu derrière le ContactForm
-  // "scoreOnly" → la personne veut juste son score : aucune coordonnée
-  //   n'est demandée, on affiche seulement le score
-  revealChoice: "yes" | "scoreOnly";
+  // "no" → on montre les résultats directement
+  revealChoice: "yes" | "no";
   onRestart: () => void;
-  // Depuis l'écran "score seulement" : bascule vers l'analyse complète
-  // (gated par le ContactForm), sans refaire le questionnaire.
-  onRequestFull: () => void;
 }
 
 const VERDICT_BADGE: Record<Verdict, { label: string; color: string; bg: string; ring: string }> = {
@@ -51,7 +47,7 @@ type SubmissionState =
   | { kind: "pending" }
   | { kind: "done"; stored: boolean; firstName: string };
 
-export default function ResultsScreen({ analyze, answers, revealChoice, onRestart, onRequestFull }: Props) {
+export default function ResultsScreen({ analyze, answers, revealChoice, onRestart }: Props) {
   const { scoring, report } = analyze;
   const badge = VERDICT_BADGE[scoring.verdict];
   const verdictHeadline = VERDICT_HEADLINE[scoring.verdict];
@@ -61,84 +57,6 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
   // encore soumis ses coordonnées, on bloque tout le contenu derrière le
   // ContactForm. Le verdict n'est pas visible (pas d'indices).
   const isGated = revealChoice === "yes" && submission.kind === "pending";
-
-  if (revealChoice === "scoreOnly") {
-    return (
-      <div className="min-h-screen px-5 sm:px-8 py-10 sm:py-14 max-w-xl mx-auto w-full flex flex-col justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex justify-center mb-8"
-        >
-          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${badge.bg} ring-1 ${badge.ring}`}>
-            <span className={`w-2 h-2 rounded-full ${badge.color.replace("text-", "bg-")}`} />
-            <span className={`text-xs font-medium tracking-wide ${badge.color}`}>{badge.label}</span>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-10"
-        >
-          <h1 className="display-title text-[2rem] sm:text-5xl text-[var(--color-brand-100)] text-balance">
-            {verdictHeadline}
-          </h1>
-        </motion.div>
-
-        <ScoreCard score={scoring.score} verdict={scoring.verdict} />
-
-        <p className="text-center text-[11px] sm:text-xs text-slate-500 mt-4">
-          Aucune coordonnée n&apos;a été demandée.
-        </p>
-
-        <motion.button
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          onClick={onRequestFull}
-          className="
-            group mt-8 w-full
-            relative overflow-hidden
-            rounded-2xl
-            bg-gradient-to-b from-[var(--color-gold-soft)] to-[var(--color-gold)]
-            text-white
-            px-6 py-5
-            shadow-[0_20px_50px_-15px_rgba(102,0,0,0.55)]
-            hover:shadow-[0_25px_60px_-10px_rgba(102,0,0,0.7)]
-            hover:-translate-y-0.5
-            transition-all duration-300
-          "
-        >
-          <span className="block font-medium text-base sm:text-lg">
-            Voir l&apos;analyse complète
-          </span>
-          <span className="block text-xs sm:text-sm text-white/65 mt-1">
-            Gratuite — envoyée par courriel
-          </span>
-          <span className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 10h10M11 6l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </motion.button>
-
-        <div className="mt-8 mb-24 sm:mb-12 text-center">
-          <button
-            onClick={onRestart}
-            className="text-sm text-slate-400 hover:text-[var(--color-brand-200)] transition-colors underline underline-offset-4 decoration-[var(--color-brand-400)] hover:decoration-[var(--color-gold)]"
-          >
-            Refaire une évaluation
-          </button>
-          <p className="mt-6 text-[10px] text-slate-600 uppercase tracking-[0.2em]">
-            Analyse {analyze.generatedBy === "claude" ? "IA" : "déterministe"} · {BRAND.teamName} · {BRAND.region}
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (isGated) {
     return (
