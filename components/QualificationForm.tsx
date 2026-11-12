@@ -17,6 +17,7 @@ import ExistingBrokerBlocker from "./questions/ExistingBrokerBlocker";
 interface Props {
   onComplete: (answers: Answers) => void;
   onNoSell: (answers: Answers) => void;
+  onDelayed: (answers: Answers) => void;
   onExit: () => void;
 }
 
@@ -27,6 +28,7 @@ const AUTO_ADVANCE_MS = 220;
 const STEP_NAMES: Record<string, string> = {
   propertyType: "type_propriete",
   sellingMotivation: "motivation_vente",
+  sellingTimeline: "delai_vente",
   yearsOwned: "annees_possession",
   estimatedValue: "valeur_estimee",
   hasChildren: "enfants",
@@ -38,7 +40,7 @@ const STEP_NAMES: Record<string, string> = {
 };
 // Champs dont la valeur est un choix prédéfini → sûr à transmettre comme "value".
 const CHOICE_FIELDS = new Set([
-  "propertyType", "sellingMotivation", "hasChildren", "childrenStatus",
+  "propertyType", "sellingMotivation", "sellingTimeline", "hasChildren", "childrenStatus",
   "noChildrenPlan", "financialProfile", "hasContract",
 ]);
 
@@ -51,7 +53,7 @@ function trackAnswer(partial: Partial<Answers>) {
   trackStep(STEP_NAMES[field], value);
 }
 
-export default function QualificationForm({ onComplete, onNoSell, onExit }: Props) {
+export default function QualificationForm({ onComplete, onNoSell, onDelayed, onExit }: Props) {
   const [answers, setAnswers] = useState<Answers>({});
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
@@ -121,6 +123,17 @@ export default function QualificationForm({ onComplete, onNoSell, onExit }: Prop
         return;
       }
 
+      // Court-circuit : si la personne veut vendre dans plus de 8 mois,
+      // on saute le reste du questionnaire — on la recontactera plus tard.
+      if (partial.sellingTimeline === "plus_8_mois") {
+        trackStep("delai_vente", "plus_8_mois");
+        if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
+        autoAdvanceTimer.current = setTimeout(() => {
+          onDelayed(nextAnswers);
+        }, AUTO_ADVANCE_MS);
+        return;
+      }
+
       // Bloque l'auto-advance quand hasContract=true sans wantsToSwitch :
       // le composant ExistingBrokerBlocker prend le relais.
       const wouldBeBlocked =
@@ -142,7 +155,7 @@ export default function QualificationForm({ onComplete, onNoSell, onExit }: Prop
         }, delayMs);
       }
     },
-    [answers, onComplete, onNoSell]
+    [answers, onComplete, onNoSell, onDelayed]
   );
 
   if (!current) return null;
@@ -295,6 +308,14 @@ function QuestionRenderer({
           choices={choices!}
           value={answers.sellingMotivation}
           onChange={(v) => onUpdate({ sellingMotivation: v as Answers["sellingMotivation"] }, autoAdvance)}
+        />
+      );
+    case "sellingTimeline":
+      return (
+        <ChoiceQuestion
+          choices={choices!}
+          value={answers.sellingTimeline}
+          onChange={(v) => onUpdate({ sellingTimeline: v as Answers["sellingTimeline"] }, autoAdvance)}
         />
       );
     case "yearsOwned":

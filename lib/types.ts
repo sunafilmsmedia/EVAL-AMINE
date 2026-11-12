@@ -2,6 +2,8 @@ export type PropertyType = "maison" | "condo" | "plex" | "chalet";
 
 export type SellingMotivation = "upsize" | "downsize" | "relocation" | "no_sell";
 
+export type SellingTimeline = "immediat" | "3_mois" | "6_mois" | "8_mois" | "plus_8_mois";
+
 export type ChildrenStatus = "partis" | "partent_3_ans" | "encore_maison" | "manque_espace";
 
 export type NoChildrenPlan = "oui_bientot" | "peut_etre" | "non";
@@ -24,6 +26,7 @@ export type Region = {
 export interface Answers {
   propertyType?: PropertyType;
   sellingMotivation?: SellingMotivation;
+  sellingTimeline?: SellingTimeline;
   yearsOwned?: number;
   estimatedValue?: number;
   hasChildren?: boolean;

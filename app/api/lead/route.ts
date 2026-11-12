@@ -96,6 +96,7 @@ export async function POST(req: Request) {
     // Détails propriété
     propertyType: answers.propertyType ?? "",
     sellingMotivation: answers.sellingMotivation ?? "",
+    sellingTimeline: answers.sellingTimeline ?? "",
     yearsOwned: answers.yearsOwned ?? 0,
     estimatedValue: answers.estimatedValue ?? 0,
     region: regionName,

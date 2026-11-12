@@ -9,13 +9,14 @@ import QualificationForm from "@/components/QualificationForm";
 import LoadingScreen from "@/components/LoadingScreen";
 import PreRevealScreen from "@/components/PreRevealScreen";
 import NoSellScreen from "@/components/NoSellScreen";
+import DelayedScreen from "@/components/DelayedScreen";
 import ResultsScreen from "@/components/results/ResultsScreen";
 import { trackStep } from "@/lib/track";
 import type { AnalyzeResponse, Answers } from "@/lib/types";
 
 const HeroBackground = dynamic(() => import("@/components/HeroBackground"), { ssr: false });
 
-type Stage = "hero" | "form" | "loading" | "preReveal" | "results" | "noSell";
+type Stage = "hero" | "form" | "loading" | "preReveal" | "results" | "noSell" | "delayed";
 
 const MIN_LOADING_MS = 2000;
 
@@ -75,6 +76,13 @@ export default function Home() {
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
+  const handleDelayed = (partialAnswers: Answers) => {
+    trackStep("delai_long");
+    setAnswers(partialAnswers);
+    setStage("delayed");
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  };
+
   const restart = () => {
     setAnswers(null);
     setAnalyze(null);
@@ -84,7 +92,7 @@ export default function Home() {
   };
 
   const showChrome =
-    stage === "hero" || stage === "preReveal" || stage === "results" || stage === "noSell";
+    stage === "hero" || stage === "preReveal" || stage === "results" || stage === "noSell" || stage === "delayed";
 
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -114,6 +122,7 @@ export default function Home() {
             <QualificationForm
               onComplete={handleFormComplete}
               onNoSell={handleNoSell}
+              onDelayed={handleDelayed}
               onExit={() => setStage("hero")}
             />
           </motion.div>
@@ -143,9 +152,14 @@ export default function Home() {
             <NoSellScreen answers={answers} onRestart={restart} />
           </motion.div>
         )}
+        {stage === "delayed" && answers && (
+          <motion.div key="delayed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <DelayedScreen answers={answers} onRestart={restart} />
+          </motion.div>
+        )}
       </AnimatePresence>
 
-      {/* Logos — visibles sur le hero, les résultats et la page no-sell */}
+      {/* Logos — visibles sur le hero, les résultats et les pages terminales (no-sell, délai) */}
       <AnimatePresence>
         {showChrome && (
           <motion.div

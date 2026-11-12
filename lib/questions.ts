@@ -3,6 +3,7 @@ import type { Answers } from "./types";
 export type QuestionId =
   | "propertyType"
   | "sellingMotivation"
+  | "sellingTimeline"
   | "yearsOwned"
   | "estimatedValue"
   | "hasChildren"
@@ -60,6 +61,20 @@ export const QUESTIONS: QuestionDef[] = [
       { value: "downsize", label: "Pour réduire ou simplifier", hint: "Moins d'entretien, moins grand" },
       { value: "relocation", label: "Pour déménager ailleurs", hint: "Autre secteur ou autre région" },
       { value: "no_sell", label: "Je ne veux pas vendre", hint: "Je suis simplement curieux(se)" },
+    ],
+  },
+  {
+    id: "sellingTimeline",
+    kind: "choice",
+    title: "Dans combien de temps voulez-vous vendre ?",
+    subtitle: "Ça nous aide à planifier le bon moment pour vous recontacter.",
+    autoAdvance: true,
+    choices: [
+      { value: "immediat", label: "Le plus vite possible", hint: "Dans les prochaines semaines" },
+      { value: "3_mois", label: "D'ici 3 mois" },
+      { value: "6_mois", label: "D'ici 6 mois" },
+      { value: "8_mois", label: "D'ici 8 mois" },
+      { value: "plus_8_mois", label: "Dans plus de 8 mois", hint: "Pas pressé(e)" },
     ],
   },
   {
@@ -146,6 +161,7 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
   switch (q.id) {
     case "propertyType": return !!a.propertyType;
     case "sellingMotivation": return !!a.sellingMotivation;
+    case "sellingTimeline": return !!a.sellingTimeline;
     case "yearsOwned": return typeof a.yearsOwned === "number" && a.yearsOwned >= 0;
     case "estimatedValue": return typeof a.estimatedValue === "number" && a.estimatedValue > 0;
     case "hasChildren": return typeof a.hasChildren === "boolean";
