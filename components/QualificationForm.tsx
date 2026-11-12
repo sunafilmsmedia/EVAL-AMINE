@@ -123,10 +123,10 @@ export default function QualificationForm({ onComplete, onNoSell, onDelayed, onE
         return;
       }
 
-      // Court-circuit : si la personne veut vendre dans plus de 8 mois,
+      // Court-circuit : si la personne veut vendre dans 8 mois ou plus,
       // on saute le reste du questionnaire — on la recontactera plus tard.
-      if (partial.sellingTimeline === "plus_8_mois") {
-        trackStep("delai_vente", "plus_8_mois");
+      if (partial.sellingTimeline === "8_mois" || partial.sellingTimeline === "plus_8_mois") {
+        trackStep("delai_vente", partial.sellingTimeline);
         if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
         autoAdvanceTimer.current = setTimeout(() => {
           onDelayed(nextAnswers);
